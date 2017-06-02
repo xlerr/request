@@ -39,7 +39,7 @@ class HttpResponse implements HttpResponseInterface
     public function getContent()
     {
         if ($this->content === null) {
-            $this->content = stream_get_contents($stream);
+            $this->content = stream_get_contents($this->stream);
         }
         return $this->content;
     }
@@ -74,7 +74,7 @@ class HttpResponse implements HttpResponseInterface
 
         if ($key === null) {
             return $this->meta;
-        } elseif (isset($this->meta[$key]) {
+        } elseif (isset($this->meta[$key])) {
             return $this->meta[$key];
         } else {
             return null;
