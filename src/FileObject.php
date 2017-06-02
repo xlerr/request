@@ -18,10 +18,10 @@ class FileObject
             $this->mime = $mime;
         } else if (is_file($file)) {
             $this->filename = basename($file);
-            $this->mime = FileHelper::getMimeType($file);
+            $this->mime = self::getMimeType($file);
             $this->content = file_get_contents($file);
         } else {
-            throw new Exception('not a file: ' . $file);
+            throw new Exception('File does not exist: ' . $file);
         }
     }
 
