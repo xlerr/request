@@ -4,7 +4,6 @@ namespace xlerr\request;
 
 class HttpResponse implements HttpResponseInterface
 {
-    protected $stream;
     protected $meta;
     protected $protocol;
     protected $headers;
@@ -15,7 +14,11 @@ class HttpResponse implements HttpResponseInterface
         if (!is_resource($stream)) {
             throw new RequestException('The sending request failed');
         }
-        $this->stream = $stream;
+
+        $this->meta = stream_get_meta_data($stream);
+        $this->content = stream_get_contents($stream);
+
+        @fclose($stream);
     }
 
     public function getProtocol()
@@ -38,9 +41,6 @@ class HttpResponse implements HttpResponseInterface
 
     public function getContent()
     {
-        if ($this->content === null) {
-            $this->content = stream_get_contents($this->stream);
-        }
         return $this->content;
     }
 
@@ -68,10 +68,6 @@ class HttpResponse implements HttpResponseInterface
 
     protected function readMetaData($key = null)
     {
-        if ($this->meta === null) {
-            $this->meta = stream_get_meta_data($this->stream);
-        }
-
         if ($key === null) {
             return $this->meta;
         } elseif (isset($this->meta[$key])) {
