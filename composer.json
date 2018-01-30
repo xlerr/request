@@ -1,8 +1,14 @@
 {
     "name": "xlerr/request",
+    "authors": [
+        {
+            "name": "xlerr",
+            "email": "496366543@qq.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
-            "xlerr\\request\\": "./src"
+            "xlerr\\request\\": "./src",
         }
     },
     "require": {

@@ -2,6 +2,8 @@
 
 namespace xlerr\request;
 
+use Exception;
+
 class Request
 {
     const MULTIPART_FORM_DATA = 'multipart/form-data';
@@ -51,7 +53,11 @@ class Request
             ],
         ];
 
-        $stream = @fopen($url, 'r', false, stream_context_create($context));
+        try {
+            $stream = fopen($url, 'r', false, stream_context_create($context));
+        } catch (Exception $e) {
+            throw new RequestException($e->getMessage());
+        }
 
         return $this->parseResponse($stream);
     }
